@@ -3,8 +3,8 @@ module build
 go 1.22
 
 require (
-	github.com/outofforest/build v1.16.5
-	github.com/outofforest/buildgo v0.9.1
+	github.com/outofforest/build/v2 v2.2.0
+	github.com/outofforest/tools v1.0.0
 )
 
 require (
