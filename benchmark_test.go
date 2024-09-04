@@ -13,7 +13,7 @@ type testType struct {
 	Field [4096]byte
 }
 
-func BenchmarkSingleAllocation(b *testing.B) {
+func BenchmarkNewSingleAllocation(b *testing.B) {
 	b.StopTimer()
 	b.ResetTimer()
 
@@ -27,7 +27,7 @@ func BenchmarkSingleAllocation(b *testing.B) {
 	_, _ = fmt.Fprint(io.Discard, o)
 }
 
-func BenchmarkMassAllocation(b *testing.B) {
+func BenchmarkNewMassAllocation(b *testing.B) {
 	b.StopTimer()
 	b.ResetTimer()
 
@@ -37,6 +37,35 @@ func BenchmarkMassAllocation(b *testing.B) {
 	b.StartTimer()
 	for range b.N {
 		o = m.New()
+	}
+	b.StopTimer()
+	_, _ = fmt.Fprint(io.Discard, o)
+}
+
+func BenchmarkNewSliceSingleAllocation(b *testing.B) {
+	b.StopTimer()
+	b.ResetTimer()
+
+	var o []testType
+
+	b.StartTimer()
+	for range b.N {
+		o = make([]testType, 10)
+	}
+	b.StopTimer()
+	_, _ = fmt.Fprint(io.Discard, o)
+}
+
+func BenchmarkNewSliceMassAllocation(b *testing.B) {
+	b.StopTimer()
+	b.ResetTimer()
+
+	m := New[testType](1000)
+	var o []testType
+
+	b.StartTimer()
+	for range b.N {
+		o = m.NewSlice(10)
 	}
 	b.StopTimer()
 	_, _ = fmt.Fprint(io.Discard, o)
