@@ -25,7 +25,7 @@ func TestNewSlice(t *testing.T) {
 	expected := [][]int{}
 
 	k := 0
-	for i := range 50 {
+	for i := range uint64(50) {
 		o := m.NewSlice(i)
 		e := make([]int, 0, len(o))
 		for j := range o {
